@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+	</h:head>
+
+	<h:body> 
+		<h:form id="form">		
+			<h:panelGroup id="hatalar">
+				<p:growl id="growl" for="growlf" showDetail="true" sticky="true" />
+				<p:messages id="genel" for="genelf" showDetail="true" closable="true" />				
+		</h:panelGroup>    
+						
+		    <h:panelGrid id="grid" columns="3" cellpadding="5">
+		      	<h:inputText id="input" value="#{bean.message}" binding="#{bean.comp}" />	
+		      	<p:message id="message" for="input"/>				      	      	
+		    </h:panelGrid>
+		 
+		    <p:commandButton id="submitButton" value="Submit" update="grid hatalar" action="#{bean.actt()}"/>
+	</h:form>    	
+	</h:body>
+
+</html>
