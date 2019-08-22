@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="DrVirual" transaction-type="RESOURCE_LOCAL">
-		<class>model.Doktor</class>
 		<class>model.Hasta</class>
 		<class>model.Hastane</class>
+		<class>model.Randevu</class>
+		<class>model.Doktor</class>
+		<class>model.Chat</class>
 		<properties>
 			<property name="eclipselink.jdbc.cache-statements" value="false"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/virtual?useUnicode=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Turkey"/>

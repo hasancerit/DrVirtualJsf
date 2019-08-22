@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -30,7 +31,7 @@ import model.Doktor;
 import model.Hastane;
 
 @ManagedBean(name = "bean", eager = true)
-@RequestScoped
+@SessionScoped
 public class Bean {
 	/*public void test() {
 		System.out.println("calisti");
@@ -78,6 +79,29 @@ public class Bean {
 	public void setBolumler(Map<String, Object> bolumler) {
 		this.bolumler = bolumler;
 	}*/
+	
+	@PreDestroy
+	public void pre() {
+		System.out.println("BEAN YOK EDÝLDÝ");
+	}
+	
+	
+	@PostConstruct
+	public void cons() {
+		System.out.println("BEAN OLUÞTU");
+	}
+	
+	@ManagedProperty(value = "#{randevuBilgileri}")
+	private RandevuBilgileri randevuBilgileri;
+	
+
+	public RandevuBilgileri getRandevuBilgileri() {
+		return randevuBilgileri;
+	}
+
+	public void setRandevuBilgileri(RandevuBilgileri randevuBilgileri) {
+		this.randevuBilgileri = randevuBilgileri;
+	}
 
 	private String tc,sifre,name;
 	public String getName() {
@@ -98,6 +122,8 @@ public class Bean {
 	public void setSifre(String sifre) {
 		this.sifre = sifre;
 	}
+	
+
 	public String girisdene(){
 		  Connection conn = null;
 		  PreparedStatement preparedStatement = null;
@@ -105,11 +131,12 @@ public class Bean {
 		  try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/virtual?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=Turkey","root","1234");
-			preparedStatement = conn.prepareStatement("select tc,sifre from hasta where tc=? and sifre=?");
+			preparedStatement = conn.prepareStatement("select * from hasta where tc=? and sifre=?");
 			preparedStatement.setString(1, tc);
 			preparedStatement.setString(2, sifre);
 			ResultSet resultset = preparedStatement.executeQuery();
 			if(resultset.next()) {
+				randevuBilgileri.setHastaId(""+resultset.getInt("idhasta"));
 				return "hastanasayfa";
 			}else {
 				return "hastagiris";

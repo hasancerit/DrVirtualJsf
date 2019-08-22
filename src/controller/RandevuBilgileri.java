@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -11,6 +13,7 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean(name = "randevuBilgileri")
 @SessionScoped
 public class RandevuBilgileri {
+	private String hastaId = "1";
 	private String hastaneAdi="";
 	private String bolumAdi;
 	private String doktorAdi;
@@ -18,6 +21,7 @@ public class RandevuBilgileri {
 	private boolean secildi = false;
 	private Date date1;
 	private String tarih;
+	
 	
 	private Map<String,String> doktorMap = new HashMap<String, String>();
 	private Map<String,String> saatMap = new HashMap<String, String>();
@@ -97,5 +101,22 @@ public class RandevuBilgileri {
 	}
 	public void setTarih(String tarih) {
 		this.tarih = tarih;
+	}
+	
+	@PreDestroy
+	public void pre() {
+		System.out.println("RB YOK EDÝLDÝ");
+	}
+	
+	
+	@PostConstruct
+	public void cons() {
+		System.out.println("RB OLUÞTU");
+	}
+	public String getHastaId() {
+		return hastaId;
+	}
+	public void setHastaId(String hastaId) {
+		this.hastaId = hastaId;
 	}
 }

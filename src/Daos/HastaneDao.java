@@ -44,4 +44,15 @@ public class HastaneDao extends Dao<Hastane>{
         
         return hastaneler;
 	}
+	
+	public Hastane hastaneBulId(String Id) {
+		EntityManagerFactory entityManagerFactoryObject=Persistence.createEntityManagerFactory("DrVirual");
+        EntityManager entityManagerObject=entityManagerFactoryObject.createEntityManager();
+        
+        Hastane d = super.find(Integer.parseInt(Id),entityManagerObject);
+                
+        entityManagerObject.close();
+        entityManagerFactoryObject.close();
+		return d;
+	}
 }

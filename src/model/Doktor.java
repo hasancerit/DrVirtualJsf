@@ -10,11 +10,10 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Doktor.findAll", query="SELECT d FROM Doktor d"),
-	@NamedQuery(name = "Doktor.findByBolumAndHastane",
-				query = "SELECT d FROM Doktor d WHERE d.hastane=:hastane AND d.bolüm=:bolüm")
-})
+    @NamedQuery(name = "Doktor.findAll", query = "SELECT d FROM Doktor d"),
+    @NamedQuery(name = "Doktor.findByBolumAndHastane", query = "SELECT d FROM Doktor d WHERE d.hastane = :hastane and d.bolüm = :bolüm"),
 
+    })
 public class Doktor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -26,6 +25,8 @@ public class Doktor implements Serializable {
 	private String hastane;
 
 	private String isim;
+
+	private String randevuIds;
 
 	private String randevular;
 
@@ -62,6 +63,14 @@ public class Doktor implements Serializable {
 
 	public void setIsim(String isim) {
 		this.isim = isim;
+	}
+
+	public String getRandevuIds() {
+		return this.randevuIds;
+	}
+
+	public void setRandevuIds(String randevuIds) {
+		this.randevuIds = randevuIds;
 	}
 
 	public String getRandevular() {

@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<h:head>
+	<f:event type="preRenderView" listener="#{chatController.konusulanKisiEkle(param.gonderilen)}"/>
+</h:head>
+
+<h:body>
+	<h:outputText value="#{param.gonderen}   #{param.gonderilen}"/>
+	<br /><br /><br /><br />
+	<div id="div">
+	<c:forEach items="${chatController.mesajlariAl(param.gonderen,param.gonderilen)}" var="mesaj">
+		<c:if test="${mesaj.gönderenId eq param.gonderen}">
+			<h:outputText value="${mesaj.mesaj}" style="background-color: yellow "/>
+		</c:if>	
+		
+		<c:if test="${mesaj.gönderenId eq param.gonderilen}">
+			<h:outputText value="${mesaj.mesaj}" style="background-color: green "/>
+		</c:if>
+		
+		<br />
+	</c:forEach>
+	</div>
+	<h:inputText value="" id="text"/> <h:commandButton type="button" value="Gonder" onclick="sendMessage()"/> 
+	
+	
+	<input type="hidden" id="mid" value="#{param.gonderen}" />
+	<input type="hidden" id="iid" value="#{param.gonderilen}" />
+		<h:outputScript library="js" name="control.js" />
+	
+</h:body>
+
+</html>

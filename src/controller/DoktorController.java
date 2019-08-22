@@ -11,9 +11,15 @@ import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import Services.DoktorService;
+import Services.HastaService;
 import model.Doktor;
+import model.Hasta;
+import model.Randevu;
 
 @ManagedBean(name = "doktorController", eager = true)
 @SessionScoped
@@ -123,15 +129,50 @@ public class DoktorController {
 		return saatler;
 	}
 	
+	
+	@ManagedProperty(value = "#{hastaService}")
+	private HastaService hastaService;
+	
+	public HastaService getHastaService() {
+		return hastaService;
+	}
+
+	public void setHastaService(HastaService hastaService) {
+		this.hastaService = hastaService;
+	}
+
 	public void updateDoktor(){
 		randevuBilgileri.setHastaneAdi("");
 		randevuBilgileri.getHastaneMap().clear();
 
-		System.out.println(randevuBilgileri.getDoktorAdi());
-		Doktor d = doktorService.doktorBul(randevuBilgileri.getDoktorAdi());
-		System.out.println((d.getRandevular()+randevuBilgileri.getTarih()+"&"+randevuBilgileri.getSaat()+","));
-		d.setRandevular(d.getRandevular()+randevuBilgileri.getTarih()+"&"+randevuBilgileri.getSaat()+",");
-		doktorService.doktorGuncelle(d);
+		//Randevu Table'a ekle
+		EntityManagerFactory entityManagerFactoryObject=Persistence.createEntityManagerFactory("DrVirual");
+        EntityManager entityManagerObject=entityManagerFactoryObject.createEntityManager();
+        entityManagerObject.getTransaction().begin();
+
+        	Randevu r = new Randevu();
+			r.setBolum(randevuBilgileri.getBolumAdi());
+			r.setDoktor(randevuBilgileri.getDoktorAdi());
+			r.setHasta(randevuBilgileri.getHastaId());
+			r.setHastane(randevuBilgileri.getHastaneAdi());
+			r.setTarih(randevuBilgileri.getTarih()+"&"+randevuBilgileri.getSaat());
+        	
+            entityManagerObject.persist(r);
+        entityManagerObject.getTransaction().commit();
+        entityManagerObject.close();
+        entityManagerFactoryObject.close();         
+        
+     		//Hasta Güncelle
+     		Hasta h = hastaService.hastaBul(randevuBilgileri.getHastaId());
+     		h.setRandevular(h.getRandevular()+r.getIdRandevu()+",");
+     		hastaService.hastaGuncelle(h);
+     		
+    		//Doktoru Güncelle
+    		Doktor d = doktorService.doktorBul(randevuBilgileri.getDoktorAdi());
+    		d.setRandevular(d.getRandevular()+randevuBilgileri.getTarih()+"&"+randevuBilgileri.getSaat()+",");
+    		d.setRandevuIds(d.getRandevuIds()+r.getIdRandevu()+",");
+    		doktorService.doktorGuncelle(d);
+         
 	}
 	
 	public void tarihSýfýrla(){

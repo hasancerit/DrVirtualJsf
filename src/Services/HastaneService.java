@@ -37,6 +37,10 @@ public class HastaneService {
 	public Hastane bolumBul(String hastaneAdi){
     	return hastaneDao.bolumBul(hastaneAdi);
     }
+	
+	public Hastane hastaneBul(String hastaneİd) {
+		return hastaneDao.hastaneBulId(hastaneİd);
+	}
     
     public List<Hastane> hastaneBul(){
     	return hastaneDao.hastaneBul("Hastane.findAll");

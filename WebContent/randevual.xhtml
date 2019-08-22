@@ -64,7 +64,9 @@
 	</h:panelGroup>
 
 	<h:panelGroup id="onayG" >
-		<p:commandButton update = "@form" process = "@this"  id="onay" action="#{doktorController.updateDoktor()}" value="ONAY" rendered="#{randevuBilgileri.secildi}"/>
+		<p:commandButton update = "@form" process = "@this"  id="onay" action="#{doktorController.updateDoktor()}" value="ONAY" rendered="#{randevuBilgileri.secildi}">
+				<f:param name="action" value="delete" />
+		</p:commandButton>
 	</h:panelGroup>	
 	
 	
